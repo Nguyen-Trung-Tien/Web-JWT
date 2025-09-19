@@ -1,0 +1,30 @@
+{
+  "name": "backend-nodejs",
+  "version": "1.0.0",
+  "description": "jwt nodejs react",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec  babel-node  src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nguyen-Trung-Tien/JWT-Web.git"
+  },
+  "author": "Nguyen Trung Tien",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nguyen-Trung-Tien/JWT-Web/issues"
+  },
+  "homepage": "https://github.com/Nguyen-Trung-Tien/JWT-Web#readme",
+  "dependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/node": "^7.28.0",
+    "@babel/preset-env": "^7.28.3",
+    "body-parser": "2.2.0",
+    "dotenv": "17.2.2",
+    "ejs": "3.1.10",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.10"
+  }
+}
