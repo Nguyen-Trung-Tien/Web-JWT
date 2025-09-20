@@ -1,36 +1,33 @@
-import mysql from "mysql2";
-
-// Create the connection to database
-const connection = mysql.createConnection({
-  host: "localhost",
-  password: "123456",
-  user: "root",
-  database: "web-jwt",
-});
+import userService from "../service/userService";
 
 const handleHelloWorld = (req, res) => {
   return res.render("home.ejs");
 };
 
-const handleUserPage = (req, res) => {
-  return res.render("user.ejs");
+const handleUserPage = async (req, res) => {
+  let userList = await userService.getListUser();
+  await userService.deleteUser();
+  return res.render("user.ejs", { userList });
 };
 
-const handleCreateNewUser = (req, res) => {
+const handleCreateNewUser = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   let username = req.body.username;
 
-  // A simple SELECT query
-  connection.query(
-    "INSERT  INTO users (email, password,username) VALUES (?,?,?)",
-    [email, password, username],
-    function (err, results, fields) {
-      console.log(results);
-      console.log(fields);
-    }
-  );
-  return res.send("handlerCreateNewUser");
+  userService.CreateNewUser(email, password, username);
+
+  return res.redirect("/user");
 };
 
-module.exports = { handleHelloWorld, handleUserPage, handleCreateNewUser };
+const handleDeleteUser = async (req, res) => {
+  await userService.deleteUser(req.params.id);
+  return res.redirect("/user");
+};
+
+module.exports = {
+  handleHelloWorld,
+  handleUserPage,
+  handleCreateNewUser,
+  handleDeleteUser,
+};
