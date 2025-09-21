@@ -21,7 +21,7 @@ const CreateNewUser = async (email, password, username) => {
   let hashPassword = hashUserPassword(password);
 
   try {
-    const [row, fields] = await connection.query(
+    const [row, fields] = await connection.execute(
       "INSERT  INTO users (email, password,username) VALUES (?,?,?)",
       [email, hashPassword, username],
       function (err, results, fields) {}
@@ -66,4 +66,48 @@ const deleteUser = async (id) => {
   }
 };
 
-module.exports = { CreateNewUser, getListUser, deleteUser };
+const getUpdateUserById = async (id) => {
+  const connection = await mysql.createConnection({
+    host: "localhost",
+    password: "123456",
+    user: "root",
+    database: "web-jwt",
+    Promise: bluebird,
+  });
+  try {
+    const [row, fields] = await connection.execute(
+      "SELECT* FROM users WHERE id=?",
+      [id]
+    );
+    return row;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const updateUserInfo = async (email, username, id) => {
+  const connection = await mysql.createConnection({
+    host: "localhost",
+    password: "123456",
+    user: "root",
+    database: "web-jwt",
+    Promise: bluebird,
+  });
+  try {
+    const [row, fields] = await connection.execute(
+      "UPDATE  users SET  email = ?, username = ? WHERE id = ?",
+      [email, username, id]
+    );
+    return row;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = {
+  CreateNewUser,
+  getListUser,
+  deleteUser,
+  getUpdateUserById,
+  updateUserInfo,
+};
