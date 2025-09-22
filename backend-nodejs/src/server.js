@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 require("dotenv").config();
 import configViewEngine from "./config/viewEngine";
 import intiWebRoutes from "./routers/web";
+import connection from "./config/connectDb";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,6 +14,9 @@ configViewEngine(app);
 // config body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// get connection
+connection();
 
 // config router
 intiWebRoutes(app);

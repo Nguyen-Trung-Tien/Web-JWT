@@ -3,7 +3,7 @@ const salt = bcrypt.genSaltSync(10);
 import mysql from "mysql2/promise";
 import bluebird from "bluebird";
 
-const hashUserPassword = (userPassword) => {
+const hashUserPassword = async (userPassword) => {
   let hashPassword = bcrypt.hashSync(userPassword, salt);
   return hashPassword;
 
@@ -18,16 +18,22 @@ const CreateNewUser = async (email, password, username) => {
     database: "web-jwt",
     Promise: bluebird,
   });
-  let hashPassword = hashUserPassword(password);
+
+  let hashPassword = await hashUserPassword(password);
+
+  if (!email || !password || !username || !hashPassword) {
+    throw new Error("Invalid input: email, password, username are required");
+  }
 
   try {
-    const [row, fields] = await connection.execute(
-      "INSERT  INTO users (email, password,username) VALUES (?,?,?)",
-      [email, hashPassword, username],
-      function (err, results, fields) {}
+    const [row] = await connection.execute(
+      "INSERT INTO user (email, password, username, createdAt, updatedAt) VALUES (?,?,?,?,?)",
+      [email, hashPassword, username, new Date(), new Date()]
     );
+    return row;
   } catch (e) {
-    console.log(e);
+    console.log("Insert error:", e);
+    throw e;
   }
 };
 
@@ -40,7 +46,7 @@ const getListUser = async () => {
     Promise: bluebird,
   });
   try {
-    const [row, fields] = await connection.execute("Select * From users");
+    const [row, fields] = await connection.execute("Select * From user");
     return row;
   } catch (e) {
     console.log(e);
@@ -57,7 +63,7 @@ const deleteUser = async (id) => {
   });
   try {
     const [row, fields] = await connection.execute(
-      "DELETE FROM users WHERE id=?",
+      "DELETE FROM user WHERE id=?",
       [id]
     );
     return row;
@@ -76,7 +82,7 @@ const getUpdateUserById = async (id) => {
   });
   try {
     const [row, fields] = await connection.execute(
-      "SELECT* FROM users WHERE id=?",
+      "SELECT* FROM user WHERE id=?",
       [id]
     );
     return row;
@@ -95,7 +101,7 @@ const updateUserInfo = async (email, username, id) => {
   });
   try {
     const [row, fields] = await connection.execute(
-      "UPDATE  users SET  email = ?, username = ? WHERE id = ?",
+      "UPDATE  user SET  email = ?, username = ? WHERE id = ?",
       [email, username, id]
     );
     return row;
