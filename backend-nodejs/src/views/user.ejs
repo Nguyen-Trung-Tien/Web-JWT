@@ -78,7 +78,9 @@
                                     </a>
                                     <form style="display:inline"
                                         action="/delete-user/<%= item.id || item.user_id %>"
-                                        method="POST">
+                                        method="POST"
+                                        name="id"
+                                        id="id">
                                         <button class="btn btn-danger"
                                             type="submit">Delete</button>
                                     </form>
