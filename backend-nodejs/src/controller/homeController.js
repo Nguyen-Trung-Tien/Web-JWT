@@ -6,7 +6,6 @@ const handleHelloWorld = (req, res) => {
 
 const handleUserPage = async (req, res) => {
   let userList = await userService.getListUser();
-  await userService.deleteUser();
   return res.render("user.ejs", { userList });
 };
 
