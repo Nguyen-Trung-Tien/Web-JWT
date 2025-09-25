@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 const Register = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState();
 
@@ -13,9 +14,39 @@ const Register = () => {
     navigate("/login");
   };
 
+  const isValidInput = () => {
+    if (!email) {
+      toast.error("Email is required!");
+      return false;
+    }
+    if (!phoneNumber) {
+      toast.error("Phone number is required!");
+      return false;
+    }
+    if (!userName) {
+      toast.error("Username is required!");
+      return false;
+    }
+    if (!password) {
+      toast.error("Password is required!");
+      return false;
+    }
+    if (password != confirmPassword) {
+      toast.error("Password does not match!");
+      return false;
+    }
+    let validateEmail = /\S+@\S+\.\S+/;
+    if (!validateEmail.test(email)) {
+      toast.error("Please enter a valid email address!");
+      return false;
+    }
+    return true;
+  };
+
   const handleRegister = () => {
-    let userData = { email, phone, userName, password, confirmPassword };
-    console.log("userData", userData);
+    let checkInput = isValidInput();
+    toast.success("Register success!");
+    let userData = { email, phoneNumber, userName, password, confirmPassword };
   };
 
   return (
@@ -48,8 +79,8 @@ const Register = () => {
                 type="text"
                 className="form-control"
                 placeholder="Phone number"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -85,6 +116,7 @@ const Register = () => {
 
             <button
               className="btn btn-primary"
+              type="submit"
               onClick={() => handleRegister()}
             >
               Register
