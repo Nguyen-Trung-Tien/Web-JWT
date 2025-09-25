@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 require("dotenv").config();
 import configViewEngine from "./config/viewEngine";
@@ -7,7 +8,14 @@ import connection from "./config/connectDb";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-
+// cors
+app.use(
+  cors({
+    origin: process.env.REACT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 // config viewEngine
 configViewEngine(app);
 

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.scss";
 import { useNavigate } from "react-router";
 const Login = () => {
   const navigate = useNavigate();
+  const [emial, setEmail] = useState();
   const handlerNewAccount = () => {
     navigate("/register");
   };
+
   return (
     <div className="login-container">
       <div className="container">

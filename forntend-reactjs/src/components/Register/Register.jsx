@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router";
 const Register = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState();
+
   const handleLogin = () => {
     navigate("/login");
   };
+
+  const handleRegister = () => {
+    let userData = { email, phone, userName, password, confirmPassword };
+    console.log("userData", userData);
+  };
+
   return (
     <div className="register-container">
       <div className="container">
@@ -25,7 +37,9 @@ const Register = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Email "
+                placeholder="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -33,7 +47,9 @@ const Register = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="phone number"
+                placeholder="Phone number"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -42,6 +58,8 @@ const Register = () => {
                 type="text"
                 className="form-control"
                 placeholder="User name"
+                value={userName}
+                onChange={(event) => setUserName(event.target.value)}
               />
             </div>
             <div className="form-group ">
@@ -50,6 +68,8 @@ const Register = () => {
                 type="password"
                 className="form-control"
                 placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </div>
             <div className="form-group">
@@ -58,10 +78,17 @@ const Register = () => {
                 type="password"
                 className="form-control"
                 placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
               />
             </div>
 
-            <button className="btn btn-primary">Register</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => handleRegister()}
+            >
+              Register
+            </button>
 
             <hr />
             <div className="text-center">
