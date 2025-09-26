@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 require("dotenv").config();
 import configViewEngine from "./config/viewEngine";
 import intiWebRoutes from "./routers/web";
+import intiApiRoutes from "./routers/api";
+
 import connection from "./config/connectDb";
 
 const app = express();
@@ -29,6 +31,7 @@ connection();
 // config router
 intiWebRoutes(app);
 
+intiApiRoutes(app);
 app.listen(PORT, () => {
   console.log("Server is running on the port " + PORT);
 });
