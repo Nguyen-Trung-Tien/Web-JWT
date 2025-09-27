@@ -1,108 +1,71 @@
-import { where } from "sequelize";
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
 
-const hashUserPassword = async (userPassword) => {
+const hashUserPassword = (userPassword) => {
   let hashPassword = bcrypt.hashSync(userPassword, salt);
   return hashPassword;
 };
+const checkEmailUserExits = async (userEmail) => {
+  let emailUser = await db.User.findOne({
+    where: { email: userEmail },
+  });
+  if (emailUser) {
+    return false;
+  }
+  return true;
+};
 
-const CreateNewUser = async (email, password, username) => {
-  let hashPassword = await hashUserPassword(password);
-  // let checkPassword = await bcrypt.compare(password, hashPassword);
+const checkPhoneUserExits = async (userPhone) => {
+  let phoneUser = await db.User.findOne({
+    where: { phoneNumber: userPhone },
+  });
+  if (phoneUser) {
+    return false;
+  }
+  return true;
+};
 
+const registerNewUser = async (rawUserData) => {
   try {
+    // check email || phoneNumber
+
+    let checkEmailExits = await checkEmailUserExits(rawUserData.email);
+    if (checkEmailExits == false) {
+      return {
+        EM: "The email already exists!",
+        EC: 1,
+      };
+    }
+    let checkPhoneExits = await checkPhoneUserExits(rawUserData.phoneNumber);
+    if (checkPhoneExits == false) {
+      return {
+        EM: "The phone number already exists!",
+        EC: 1,
+      };
+    }
+    // hash password
+    let hashPassword = hashUserPassword(rawUserData.password);
+
+    // create user
     await db.User.create({
-      email: email,
-      username: username,
+      email: rawUserData.email,
+      username: rawUserData.username,
+      phoneNumber: rawUserData.phoneNumber,
       password: hashPassword,
     });
-  } catch (e) {
-    console.log("Insert error:", e);
-    throw e;
-  }
-};
 
-const getListUser = async () => {
-  try {
-    let newUser = await db.User.findOne({
-      where: { id: 1 },
-      attributes: ["id", "username", "email"],
-      include: { model: db.Group, attributes: ["id", "name", "description"] },
-      raw: true,
-      nest: true,
-    });
-
-    // let roles = await db.Group.findOne({
-    //   where: { id: 1 },
-    //   include: { model: db.Role },
-    //   raw: true,
-    //   nest: true,
-    // });
-
-    let r = await db.Role.findAll({
-      include: {
-        where: { id: 1 },
-        model: db.Group,
-        attributes: ["name", "description"],
-      },
-      attributes: ["url", "description"],
-      raw: true,
-      nest: true,
-    });
-
-    let users = [];
-    users = await db.User.findAll();
-    return users;
+    return {
+      EM: "A user created successfully!",
+      EC: 0,
+    };
   } catch (e) {
     console.log(e);
+    return {
+      EM: "Something wrongs in service!...",
+      EC: -2,
+    };
   }
 };
 
-const deleteUser = async (userId) => {
-  try {
-    await db.User.destroy({
-      where: {
-        id: userId,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const getUserById = async (userId) => {
-  try {
-    let users = {};
-    users = await db.User.findOne({
-      where: {
-        id: userId,
-      },
-    });
-    return users;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const updateUserInfo = async (email, username, id) => {
-  try {
-    await db.User.update(
-      { email: email, username: username },
-      {
-        where: { id: id },
-      }
-    );
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-module.exports = {
-  CreateNewUser,
-  getListUser,
-  deleteUser,
-  getUserById,
-  updateUserInfo,
-};
+module.exports = { registerNewUser };

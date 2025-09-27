@@ -1,4 +1,4 @@
-import userService from "../service/userService";
+import userService from "../service/userTestService";
 
 const handleHelloWorld = (req, res) => {
   return res.render("home.ejs");

@@ -68,6 +68,8 @@ const Register = () => {
         email,
         phoneNumber,
         username,
+        password,
+        confirmPassword,
       });
     }
     // toast.success("Register success!");

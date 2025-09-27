@@ -10,6 +10,7 @@ import connection from "./config/connectDb";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
 // cors
 app.use(
   cors({
