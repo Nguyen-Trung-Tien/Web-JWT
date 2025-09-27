@@ -46,4 +46,20 @@ const handleRegister = async (req, res) => {
   }
 };
 
-module.exports = { handleRegister };
+const handleLogin = (req, res) => {
+  try {
+    console.log("Check body", req.body);
+    return res.status(201).json({
+      EM: "Your password must have more than 6 characters!",
+      EC: 1,
+      DT: "",
+    });
+  } catch (e) {
+    return res.status(500).json({
+      EM: "Error from server!",
+      EC: -1,
+      DT: "",
+    });
+  }
+};
+module.exports = { handleRegister, handleLogin };

@@ -16,3 +16,7 @@ export const handleRegisterUser = (
     confirmPassword,
   });
 };
+
+export const handleLoginUser = (valueLogin, password) => {
+  return axios.post(`${baseURL}/login`, { valueLogin, password });
+};
