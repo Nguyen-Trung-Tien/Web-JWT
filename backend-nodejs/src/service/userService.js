@@ -1,4 +1,5 @@
 import db from "../models/index";
+import { Op } from "sequelize";
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
 
@@ -11,9 +12,9 @@ const checkEmailUserExits = async (userEmail) => {
     where: { email: userEmail },
   });
   if (emailUser) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 };
 
 const checkPhoneUserExits = async (userPhone) => {
@@ -21,24 +22,27 @@ const checkPhoneUserExits = async (userPhone) => {
     where: { phoneNumber: userPhone },
   });
   if (phoneUser) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
+};
+
+const checkPassword = (inputPassword, hashPassword) => {
+  return bcrypt.compareSync(inputPassword, hashPassword);
 };
 
 const registerNewUser = async (rawUserData) => {
   try {
     // check email || phoneNumber
-
     let checkEmailExits = await checkEmailUserExits(rawUserData.email);
-    if (checkEmailExits == false) {
+    if (checkEmailExits == true) {
       return {
         EM: "The email already exists!",
         EC: 1,
       };
     }
     let checkPhoneExits = await checkPhoneUserExits(rawUserData.phoneNumber);
-    if (checkPhoneExits == false) {
+    if (checkPhoneExits == true) {
       return {
         EM: "The phone number already exists!",
         EC: 1,
@@ -68,4 +72,43 @@ const registerNewUser = async (rawUserData) => {
   }
 };
 
-module.exports = { registerNewUser };
+const handleUserLogin = async (rawData) => {
+  try {
+    let user = await db.User.findOne({
+      where: {
+        [Op.or]: [
+          { email: rawData.valueLogin },
+          { phoneNumber: rawData.valueLogin },
+        ],
+      },
+    });
+
+    if (user) {
+      let isCorrectPassword = checkPassword(rawData.password, user.password);
+      if (isCorrectPassword === true) {
+        return {
+          EM: "OK",
+          EC: 0,
+          DT: "",
+        };
+      }
+    }
+    console.log(
+      "Not input found user!",
+      rawData.valueLogin,
+      "password",
+      rawData.password
+    );
+    return {
+      EM: "Something wrongs in service!...",
+      EC: 1,
+    };
+  } catch (e) {
+    return {
+      EM: "Something wrongs in service!...",
+      EC: -2,
+    };
+  }
+};
+
+module.exports = { registerNewUser, handleUserLogin };

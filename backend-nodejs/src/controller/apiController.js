@@ -46,13 +46,13 @@ const handleRegister = async (req, res) => {
   }
 };
 
-const handleLogin = (req, res) => {
+const handleLogin = async (req, res) => {
   try {
-    console.log("Check body", req.body);
-    return res.status(201).json({
-      EM: "Your password must have more than 6 characters!",
-      EC: 1,
-      DT: "",
+    let data = await userService.handleUserLogin(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
     });
   } catch (e) {
     return res.status(500).json({
