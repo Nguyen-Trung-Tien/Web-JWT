@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { handleRegisterUser } from "../../services/userService";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,7 +37,6 @@ const Register = () => {
       toast.error("Please enter a valid email address!");
       return false;
     }
-
     if (!phoneNumber) {
       setObjCheckInput({ ...defaultValidInput, isValidPhoneNumber: false });
       toast.error("Phone number is required!");
@@ -57,23 +56,27 @@ const Register = () => {
       toast.error("Password does not match!");
       return false;
     }
-
     return true;
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     let checkInput = isValidInput();
     if (checkInput === true) {
-      axios.post("http://localhost:8080/api/v1/register", {
+      let res = await handleRegisterUser(
         email,
         phoneNumber,
         username,
         password,
-        confirmPassword,
-      });
+        confirmPassword
+      );
+      let serverData = res.data;
+      if (+serverData.EC === 0) {
+        toast.success(serverData.EM);
+        handleLogin();
+      } else {
+        toast.error(serverData.EM);
+      }
     }
-    // toast.success("Register success!");
-    let userData = { email, phoneNumber, username, password, confirmPassword };
   };
 
   return (

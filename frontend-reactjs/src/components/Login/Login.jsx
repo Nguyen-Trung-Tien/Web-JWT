@@ -3,7 +3,6 @@ import "./Login.scss";
 import { useNavigate } from "react-router";
 const Login = () => {
   const navigate = useNavigate();
-  const [emial, setEmail] = useState();
   const handlerNewAccount = () => {
     navigate("/register");
   };

@@ -2,8 +2,9 @@ import userService from "../service/userService";
 
 const handleRegister = async (req, res) => {
   try {
-    if (!req.body.email || !req.body.phoneNumber || !req.body.password) {
-      return res.status(200).json({
+    let { email, phoneNumber, password, confirmPassword } = req.body;
+    if (!email || !phoneNumber || !password) {
+      return res.status(201).json({
         EM: "Missing required parameter!",
         EC: 1,
         DT: "",
@@ -11,8 +12,8 @@ const handleRegister = async (req, res) => {
     }
 
     // check password length
-    if (req.body.password.length < 6) {
-      return res.status(200).json({
+    if (password.length < 6) {
+      return res.status(201).json({
         EM: "Your password must have more than 6 characters!",
         EC: 1,
         DT: "",
@@ -20,8 +21,8 @@ const handleRegister = async (req, res) => {
     }
 
     // check confirm password
-    if (req.body.password !== req.body.confirmPassword) {
-      return res.status(200).json({
+    if (password !== confirmPassword) {
+      return res.status(201).json({
         EM: "Confirm password does not match!",
         EC: 1,
         DT: "",
