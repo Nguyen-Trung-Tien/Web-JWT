@@ -87,7 +87,7 @@ const handleUserLogin = async (rawData) => {
       let isCorrectPassword = checkPassword(rawData.password, user.password);
       if (isCorrectPassword === true) {
         return {
-          EM: "OK",
+          EM: "Login success!",
           EC: 0,
           DT: "",
         };
@@ -100,7 +100,7 @@ const handleUserLogin = async (rawData) => {
       rawData.password
     );
     return {
-      EM: "Something wrongs in service!...",
+      EM: "Not input found user!",
       EC: 1,
     };
   } catch (e) {

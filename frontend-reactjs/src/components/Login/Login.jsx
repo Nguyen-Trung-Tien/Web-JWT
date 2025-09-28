@@ -31,7 +31,15 @@ const Login = () => {
       return;
     }
 
-    await handleLoginUser(valueLogin, password);
+    let res = await handleLoginUser(valueLogin, password);
+    if (res && res.data && res.data.EC === 0) {
+      let data = { isAuthenticated: true, token: "Token" };
+      sessionStorage.setItem("account", JSON.stringify(data));
+      navigate("/user");
+      toast.success(res.data.EM);
+    } else if (res && res.data && res.data.EC !== 0) {
+      toast.error(res.data.EM);
+    }
   };
 
   return (
