@@ -36,9 +36,16 @@ const Login = () => {
       let data = { isAuthenticated: true, token: "Token" };
       sessionStorage.setItem("account", JSON.stringify(data));
       navigate("/user");
+      window.location.reload();
       toast.success(res.data.EM);
     } else if (res && res.data && res.data.EC !== 0) {
       toast.error(res.data.EM);
+    }
+  };
+
+  const handlePressEnter = (event) => {
+    if (event.charCode === 13 && event.code === "Enter") {
+      handleLogin();
     }
   };
 
@@ -81,6 +88,7 @@ const Login = () => {
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
+              onKeyPress={(event) => handlePressEnter(event)}
             />
 
             <button className="btn btn-primary" onClick={() => handleLogin()}>
