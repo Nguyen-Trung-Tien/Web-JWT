@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.scss";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -48,6 +48,14 @@ const Login = () => {
       handleLogin();
     }
   };
+
+  useEffect(() => {
+    let session = sessionStorage.getItem("account");
+    if (session) {
+      navigate("/");
+      window.location.reload();
+    }
+  }, []);
 
   return (
     <div className="login-container">
