@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";

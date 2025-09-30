@@ -9,12 +9,11 @@ import Project from "../components/ManageProject/Project";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<div>Đây là trang Home</div>} />
-
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       <Route element={<PrivateRoutes />}>
+        <Route path="/" element={<div>Đây là trang Home</div>} />
         <Route path="/user" element={<User />} />
         <Route path="/project" element={<Project />} />
       </Route>
