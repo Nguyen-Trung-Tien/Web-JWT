@@ -8,7 +8,6 @@ const getAllUser = async () => {
       raw: true,
       nest: true,
     });
-    console.log(users);
 
     if (users) {
       return {

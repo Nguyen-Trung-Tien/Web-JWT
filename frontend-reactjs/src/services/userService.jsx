@@ -20,3 +20,7 @@ export const handleRegisterUser = (
 export const handleLoginUser = (valueLogin, password) => {
   return axios.post(`${baseURL}/login`, { valueLogin, password });
 };
+
+export const fetchAllUser = () => {
+  return axios.get(`${baseURL}/user/show`);
+};
