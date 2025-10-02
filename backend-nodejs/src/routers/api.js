@@ -12,7 +12,7 @@ const intiApiRoutes = (app) => {
   router.post("/user/create", userController.handleCreateUser);
   router.put("/user/update", userController.handleUpdateUser);
   router.delete("/user/delete", userController.handleDeleteUser);
-  return app.use("/api/v1/", router);
+  return app.use("/api/v1", router);
 };
 
 export default intiApiRoutes;
