@@ -24,3 +24,7 @@ export const handleLoginUser = (valueLogin, password) => {
 export const fetchAllUser = (page, limit) => {
   return axios.get(`${baseURL}/user/show?page=${page}&limit=${limit}`);
 };
+
+export const handlerDeleteUser = (user) => {
+  return axios.delete(`${baseURL}/user/delete`, { data: { id: user.id } });
+};
