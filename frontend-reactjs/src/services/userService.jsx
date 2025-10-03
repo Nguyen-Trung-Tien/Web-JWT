@@ -25,6 +25,10 @@ export const fetchAllUser = (page, limit) => {
   return axios.get(`${baseURL}/user/show?page=${page}&limit=${limit}`);
 };
 
+export const handlerCreateUser = (userData) => {
+  return axios.post(`${baseURL}/user/create`, { ...userData });
+};
+
 export const handlerDeleteUser = (user) => {
   return axios.delete(`${baseURL}/user/delete`, { data: { id: user.id } });
 };

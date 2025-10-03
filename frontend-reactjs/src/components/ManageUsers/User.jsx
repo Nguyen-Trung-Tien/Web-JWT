@@ -3,14 +3,16 @@ import { fetchAllUser, handlerDeleteUser } from "../../services/userService";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalDelete from "./ModalDelete";
+import ModalUser from "./ModalUser";
 
 const User = () => {
   const [listUsers, setListUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(3);
   const [totalPage, setTotalPage] = useState(0);
-  const [isShowModalDelete, setShowModalDelete] = useState(false);
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
   const [dataModal, setDataModal] = useState({});
+  const [isShowModalUser, setIsShowModalUser] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -30,11 +32,11 @@ const User = () => {
 
   const handleDeleteUser = (user) => {
     setDataModal(user);
-    setShowModalDelete(true);
+    setIsShowModalDelete(true);
   };
 
   const handleClose = () => {
-    setShowModalDelete(false);
+    setIsShowModalDelete(false);
     setDataModal({});
   };
 
@@ -42,11 +44,15 @@ const User = () => {
     let res = await handlerDeleteUser(dataModal);
     if (res && res.data && res.data.EC === 0) {
       toast.success(res.data.EM);
-      setShowModalDelete(false);
+      setIsShowModalDelete(false);
       fetchUsers();
     } else {
       toast.error(res.data.EM);
     }
+  };
+
+  const onHideModalUser = () => {
+    setIsShowModalUser(false);
   };
 
   return (
@@ -59,7 +65,12 @@ const User = () => {
             </div>
             <div className="action">
               <button className="btn btn-success">Refresh</button>
-              <button className="btn btn-primary">Add new user</button>
+              <button
+                className="btn btn-primary"
+                onClick={() => setIsShowModalUser(true)}
+              >
+                Add new user
+              </button>
             </div>
           </div>
 
@@ -140,6 +151,11 @@ const User = () => {
         handleClose={handleClose}
         handleConfirmUser={handleConfirmUser}
         dataModal={dataModal}
+      />
+      <ModalUser
+        title={"Create a new user"}
+        onHide={onHideModalUser}
+        show={isShowModalUser}
       />
     </>
   );
