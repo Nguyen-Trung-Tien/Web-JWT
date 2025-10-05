@@ -45,8 +45,14 @@ const handleCreateUser = async (req, res) => {
     });
   }
 };
-const handleUpdateUser = (req, res) => {
+const handleUpdateUser = async (req, res) => {
   try {
+    let data = await manageUserService.updateUser(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
   } catch (e) {
     return res.status(500).json({
       EM: "Error from server....!",

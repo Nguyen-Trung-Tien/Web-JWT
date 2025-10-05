@@ -1,9 +1,40 @@
 import db from "../models/index";
+import bcrypt from "bcryptjs";
+const salt = bcrypt.genSaltSync(10);
+
+const hashUserPassword = (userPassword) => {
+  let hashPassword = bcrypt.hashSync(userPassword, salt);
+  return hashPassword;
+};
+
+const checkPassword = (inputPassword, hashPassword) => {
+  return bcrypt.compareSync(inputPassword, hashPassword);
+};
+
+const checkEmailUserExits = async (userEmail) => {
+  let emailUser = await db.User.findOne({
+    where: { email: userEmail },
+  });
+  if (emailUser) {
+    return true;
+  }
+  return false;
+};
+
+const checkPhoneUserExits = async (userPhone) => {
+  let phoneUser = await db.User.findOne({
+    where: { phoneNumber: userPhone },
+  });
+  if (phoneUser) {
+    return true;
+  }
+  return false;
+};
 
 const getAllUser = async () => {
   try {
     let users = await db.User.findAll({
-      attributes: ["id", "userName", "email", "phoneNumber", "sex"],
+      attributes: ["id", "username", "email", "phoneNumber", "sex"],
       include: { model: db.Group, attributes: ["name", "description"] },
     });
 
@@ -35,8 +66,9 @@ const getUserWithPagination = async (page, limit) => {
     const { count, rows } = await db.User.findAndCountAll({
       offset: offset,
       limit: limit,
-      attributes: ["id", "userName", "email", "phoneNumber", "sex"],
-      include: { model: db.Group, attributes: ["name", "description"] },
+      attributes: ["id", "username", "email", "phoneNumber", "address", "sex"],
+      include: { model: db.Group, attributes: ["id", "name", "description"] },
+      order: [["id", "DESC"]],
     });
 
     let totalPage = Math.ceil(count / limit);
@@ -59,9 +91,28 @@ const getUserWithPagination = async (page, limit) => {
 
 const createUser = async (data) => {
   try {
-    await db.User.create(data);
+    // check email || phoneNumber
+    let checkEmailExits = await checkEmailUserExits(data.email);
+    if (checkEmailExits == true) {
+      return {
+        EM: "The email already exists!",
+        EC: 1,
+        DT: "email",
+      };
+    }
+    let checkPhoneExits = await checkPhoneUserExits(data.phoneNumber);
+    if (checkPhoneExits == true) {
+      return {
+        EM: "The phone number already exists!",
+        EC: 1,
+        DT: "phone number",
+      };
+    }
+    // hash password
+    let hashPassword = hashUserPassword(data.password);
+    await db.User.create({ ...data, password: hashPassword });
     return {
-      EM: "OK",
+      EM: "Create a user success!",
       EC: 0,
       DT: [],
     };
