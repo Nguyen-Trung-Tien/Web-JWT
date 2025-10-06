@@ -25,9 +25,10 @@ const User = () => {
 
   const fetchUsers = async () => {
     let res = await fetchAllUser(currentPage, currentLimit);
-    if (res && res.data && res.data.EC === 0) {
-      setTotalPage(res.data.DT.totalPage);
-      setListUsers(res.data.DT.users);
+    console.log("check res", res);
+    if (res && res.EC === 0) {
+      setTotalPage(res.DT.totalPage);
+      setListUsers(res.DT.users);
     }
   };
 
@@ -48,12 +49,12 @@ const User = () => {
 
   const handleConfirmUser = async () => {
     let res = await handlerDeleteUser(dataModal);
-    if (res && res.data && res.data.EC === 0) {
-      toast.success(res.data.EM);
+    if (res && res.EC === 0) {
+      toast.success(res.EM);
       setIsShowModalDelete(false);
       fetchUsers();
     } else {
-      toast.error(res.data.EM);
+      toast.error(res.EM);
     }
   };
 

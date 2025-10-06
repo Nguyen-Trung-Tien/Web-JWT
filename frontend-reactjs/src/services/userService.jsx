@@ -1,5 +1,4 @@
-import axios from "axios";
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+import axios from "../setup/axios";
 
 export const handleRegisterUser = (
   email,
@@ -18,21 +17,21 @@ export const handleRegisterUser = (
 };
 
 export const handleLoginUser = (valueLogin, password) => {
-  return axios.post(`${baseURL}/login`, { valueLogin, password });
+  return axios.post(`/login`, { valueLogin, password });
 };
 
 export const fetchAllUser = (page, limit) => {
-  return axios.get(`${baseURL}/user/show?page=${page}&limit=${limit}`);
+  return axios.get(`/user/show?page=${page}&limit=${limit}`);
 };
 
 export const handlerCreateUser = (userData) => {
-  return axios.post(`${baseURL}/user/create`, { ...userData });
+  return axios.post(`/user/create`, { ...userData });
 };
 
 export const handlerUpdateUser = (userData) => {
-  return axios.put(`${baseURL}/user/update`, { ...userData });
+  return axios.put(`/user/update`, { ...userData });
 };
 
 export const handlerDeleteUser = (user) => {
-  return axios.delete(`${baseURL}/user/delete`, { data: { id: user.id } });
+  return axios.delete(`/user/delete`, { data: { id: user.id } });
 };

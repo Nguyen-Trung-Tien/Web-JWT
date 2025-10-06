@@ -59,14 +59,14 @@ const ModalUser = (props) => {
 
   const getGroups = async () => {
     let res = await handleGetAllGroup();
-    if (res && res.data && res.data.EC === 0) {
-      setUserGroups(res.data.DT);
-      if (res && res.data.DT && res && res.data.DT.length > 0) {
-        let groups = res.data.DT;
+    if (res && res.EC === 0) {
+      setUserGroups(res.DT);
+      if (res.DT && res.DT.length > 0) {
+        let groups = res.DT;
         setUserData({ ...userData, group: groups[0].id });
       }
     } else {
-      toast.error(res.data.EM);
+      toast.error(res.EM);
     }
   };
 
@@ -108,18 +108,18 @@ const ModalUser = (props) => {
               groupId: userData["group"],
             });
 
-      if (res.data && res.data.EC === 0) {
+      if (res && res.EC === 0) {
         props.onHide();
         setUserData({
           ...defaultUserData,
           group: userGroups && userGroups.length > 0 ? userGroups[0].id : "",
         });
-        toast.success(res.data.EM);
+        toast.success(res.EM);
       }
-      if (res.data && res.data.EC !== 0) {
-        toast.error(res.data.EM);
+      if (res && res.EC !== 0) {
+        toast.error(res.EM);
         let _validInputs = _.cloneDeep(validInputDefault);
-        _validInputs[res.data.DT] = false;
+        _validInputs[res.DT] = false;
         setValidInput(_validInputs);
       }
     }
@@ -179,7 +179,7 @@ const ModalUser = (props) => {
                     ? "form-control"
                     : "is-invalid form-control "
                 }
-                value={userData.phoneNumber}
+                value={userData.phoneNumber || ""}
                 onChange={(event) =>
                   handleOnChangeInput(event.target.value, "phoneNumber")
                 }
@@ -195,7 +195,7 @@ const ModalUser = (props) => {
                     ? "form-control"
                     : "is-invalid form-control "
                 }
-                value={userData.username}
+                value={userData.username || ""}
                 onChange={(event) =>
                   handleOnChangeInput(event.target.value, "username")
                 }
@@ -215,7 +215,7 @@ const ModalUser = (props) => {
                         ? "form-control"
                         : "is-invalid form-control "
                     }
-                    value={userData.password}
+                    value={userData.password || ""}
                     onChange={(event) =>
                       handleOnChangeInput(event.target.value, "password")
                     }
@@ -233,7 +233,7 @@ const ModalUser = (props) => {
                     ? "form-control"
                     : "is-invalid form-control"
                 }
-                value={userData.address}
+                value={userData.address || ""}
                 onChange={(event) =>
                   handleOnChangeInput(event.target.value, "address")
                 }
@@ -249,11 +249,11 @@ const ModalUser = (props) => {
                 onChange={(event) =>
                   handleOnChangeInput(event.target.value, "sex")
                 }
-                value={userData.sex}
+                value={userData.sex || ""}
               >
-                <option defaultValue="Male">Male</option>
-                <option defaultValue="Female">Female</option>
-                <option defaultValue="Other">Other</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
@@ -268,7 +268,7 @@ const ModalUser = (props) => {
                 onChange={(event) =>
                   handleOnChangeInput(event.target.value, "group")
                 }
-                value={userData.group}
+                value={userData.group || ""}
               >
                 {userGroups &&
                   userGroups.length > 0 &&

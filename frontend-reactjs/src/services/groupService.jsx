@@ -1,6 +1,5 @@
-import axios from "axios";
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+import axios from "../setup/axios";
 
 export const handleGetAllGroup = () => {
-  return axios.get(`${baseURL}/group/show`);
+  return axios.get(`/group/show`);
 };

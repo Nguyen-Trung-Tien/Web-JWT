@@ -32,14 +32,15 @@ const Login = () => {
     }
 
     let res = await handleLoginUser(valueLogin, password);
-    if (res && res.data && res.data.EC === 0) {
+    if (res && +res.EC === 0) {
       let data = { isAuthenticated: true, token: "Token" };
       sessionStorage.setItem("account", JSON.stringify(data));
       navigate("/user");
       window.location.reload();
-      toast.success(res.data.EM);
-    } else if (res && res.data && res.data.EC !== 0) {
-      toast.error(res.data.EM);
+      toast.success(res.EM);
+    }
+    if (res && +res.EC !== 0) {
+      toast.error(res.EM);
     }
   };
 
