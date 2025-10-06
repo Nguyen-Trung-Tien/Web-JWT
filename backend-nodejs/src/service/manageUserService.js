@@ -118,20 +118,52 @@ const createUser = async (data) => {
     };
   } catch (e) {
     console.log(e);
+    return {
+      EM: "Something wrong with server...!",
+      EC: -2,
+      DT: [],
+    };
   }
 };
 
 const updateUser = async (data) => {
   try {
-    let users = await db.User.findOne({
-      where: { id: data },
+    if (!data.groupId) {
+      return {
+        EM: "Error with empty groupId!",
+        EC: 1,
+        DT: "GroupId",
+      };
+    }
+    let user = await db.User.findOne({
+      where: { id: data.id },
     });
-    if (users) {
-      users.save({});
+    if (user) {
+      await user.update({
+        username: data.username,
+        address: data.address,
+        sex: data.sex,
+        groupId: data.groupId,
+      });
+      return {
+        EM: "Update user success!",
+        EC: 0,
+        DT: "",
+      };
     } else {
+      return {
+        EM: "User not found!",
+        EC: 2,
+        DT: "",
+      };
     }
   } catch (e) {
     console.log(e);
+    return {
+      EM: "Something wrong with server...!",
+      EC: -2,
+      DT: [],
+    };
   }
 };
 const deleteUser = async (id) => {

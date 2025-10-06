@@ -6,7 +6,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { handlerCreateUser } from "../../services/userService";
+import {
+  handlerCreateUser,
+  handlerUpdateUser,
+} from "../../services/userService";
 
 const ModalUser = (props) => {
   const { action, dataModalUser } = props;
@@ -74,6 +77,7 @@ const ModalUser = (props) => {
   };
 
   const checkValidInputs = () => {
+    if (action === "UPDATE") return true;
     setValidInput(validInputDefault);
     let arr = ["email", "phoneNumber", "password", "group", "username"];
     let check = true;
@@ -93,13 +97,23 @@ const ModalUser = (props) => {
   const handleConfirmUser = async () => {
     let check = checkValidInputs();
     if (check === true) {
-      let res = await handlerCreateUser({
-        ...userData,
-        groupId: userData["group"],
-      });
+      let res =
+        action === "CREATE"
+          ? await handlerCreateUser({
+              ...userData,
+              groupId: userData["group"],
+            })
+          : await handlerUpdateUser({
+              ...userData,
+              groupId: userData["group"],
+            });
+
       if (res.data && res.data.EC === 0) {
         props.onHide();
-        setUserData({ ...defaultUserData, group: userGroups[0].id });
+        setUserData({
+          ...defaultUserData,
+          group: userGroups && userGroups.length > 0 ? userGroups[0].id : "",
+        });
         toast.success(res.data.EM);
       }
       if (res.data && res.data.EC !== 0) {

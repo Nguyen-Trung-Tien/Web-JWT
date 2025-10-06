@@ -3,7 +3,37 @@
     .red {
       color: red;
       font-size: 18px;
-      font-weight: 600;
+    }
+  }
+}
+
+.manage-user-container {
+  i {
+    padding-right: 7px;
+  }
+  .action {
+    .refresh {
+      margin-right: 10px;
+    }
+  }
+  .user-body {
+    .edit {
+      color: rgb(239, 178, 64);
+      font-size: 18px;
+      padding-right: 10px;
+      cursor: pointer;
+      :hover {
+        color: orange;
+      }
+    }
+    .delete {
+      color: rgb(241, 63, 63);
+      font-size: 18px;
+      padding-left: 10px;
+      cursor: pointer;
+      :hover {
+        color: rgb(242, 29, 22);
+      }
     }
   }
 }

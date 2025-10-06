@@ -29,6 +29,10 @@ export const handlerCreateUser = (userData) => {
   return axios.post(`${baseURL}/user/create`, { ...userData });
 };
 
+export const handlerUpdateUser = (userData) => {
+  return axios.put(`${baseURL}/user/update`, { ...userData });
+};
+
 export const handlerDeleteUser = (user) => {
   return axios.delete(`${baseURL}/user/delete`, { data: { id: user.id } });
 };
