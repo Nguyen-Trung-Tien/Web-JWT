@@ -7,7 +7,7 @@ export const handleRegisterUser = (
   password,
   confirmPassword
 ) => {
-  return axios.post(`${baseURL}/register`, {
+  return axios.post(`/register`, {
     email,
     phoneNumber,
     username,

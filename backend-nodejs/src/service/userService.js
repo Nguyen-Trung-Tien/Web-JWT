@@ -1,5 +1,8 @@
 import db from "../models/index";
+require("dotenv").config();
 import { Op } from "sequelize";
+import { getGroupWithRoles } from "../service/jwtService";
+import { createJWT } from "../middleware/JWT-Action";
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
 
@@ -57,6 +60,7 @@ const registerNewUser = async (rawUserData) => {
       username: rawUserData.username,
       phoneNumber: rawUserData.phoneNumber,
       password: hashPassword,
+      groupId: 6,
     });
 
     return {
@@ -86,19 +90,23 @@ const handleUserLogin = async (rawData) => {
     if (user) {
       let isCorrectPassword = checkPassword(rawData.password, user.password);
       if (isCorrectPassword === true) {
+        // let token =
+        let groupWithRoles = await getGroupWithRoles(user);
+        let payload = {
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          groupWithRoles,
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        };
+        let token = createJWT(payload);
         return {
           EM: "Login success!",
           EC: 0,
-          DT: "",
+          DT: { access_token: token, groupWithRoles },
         };
       }
     }
-    console.log(
-      "Not input found user!",
-      rawData.valueLogin,
-      "password",
-      rawData.password
-    );
+
     return {
       EM: "Not input found user!",
       EC: 1,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -62,14 +62,14 @@ const Register = () => {
   const handleRegister = async () => {
     let checkInput = isValidInput();
     if (checkInput === true) {
-      let res = await handleRegisterUser(
+      let serverData = await handleRegisterUser(
         email,
         phoneNumber,
         username,
         password,
         confirmPassword
       );
-      let serverData = res.data;
+
       if (+serverData.EC === 0) {
         toast.success(serverData.EM);
         handleLogin();

@@ -5,7 +5,6 @@ require("dotenv").config();
 import configViewEngine from "./config/viewEngine";
 import intiWebRoutes from "./routers/web";
 import intiApiRoutes from "./routers/api";
-
 import connection from "./config/connectDb";
 
 const app = express();
