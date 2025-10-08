@@ -90,7 +90,6 @@ const handleUserLogin = async (rawData) => {
     if (user) {
       let isCorrectPassword = checkPassword(rawData.password, user.password);
       if (isCorrectPassword === true) {
-        // let token =
         let groupWithRoles = await getGroupWithRoles(user);
         let payload = {
           email: user.email,
