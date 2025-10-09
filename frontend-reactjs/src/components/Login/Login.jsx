@@ -54,7 +54,6 @@ const Login = () => {
     let session = sessionStorage.getItem("account");
     if (session) {
       navigate("/");
-      window.location.reload();
     }
   }, []);
 

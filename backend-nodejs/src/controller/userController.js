@@ -45,6 +45,7 @@ const handleCreateUser = async (req, res) => {
     });
   }
 };
+
 const handleUpdateUser = async (req, res) => {
   try {
     let data = await manageUserService.updateUser(req.body);
@@ -61,6 +62,7 @@ const handleUpdateUser = async (req, res) => {
     });
   }
 };
+
 const handleDeleteUser = async (req, res) => {
   try {
     let data = await manageUserService.deleteUser(req.body.id);
