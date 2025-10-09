@@ -35,3 +35,7 @@ export const handlerUpdateUser = (userData) => {
 export const handlerDeleteUser = (user) => {
   return axios.delete(`/user/delete`, { data: { id: user.id } });
 };
+
+export const handleGetAllGroup = () => {
+  return axios.get(`/group/show`);
+};

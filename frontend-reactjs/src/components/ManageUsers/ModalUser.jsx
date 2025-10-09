@@ -1,7 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./User.scss";
-import { handleGetAllGroup } from "../../services/groupService";
 import { useState } from "react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -9,6 +8,7 @@ import _ from "lodash";
 import {
   handlerCreateUser,
   handlerUpdateUser,
+  handleGetAllGroup,
 } from "../../services/userService";
 
 const ModalUser = (props) => {
