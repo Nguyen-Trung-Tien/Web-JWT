@@ -5,22 +5,13 @@ import AppRoutes from "./routes/AppRoutes";
 import Nav from "./components/Navigation/Nav";
 
 function App() {
-  const [account, setAccount] = useState(null);
-
-  useEffect(() => {
-    const session = sessionStorage.getItem("account");
-    if (session) {
-      setAccount(JSON.parse(session));
-    }
-  }, []);
-
   return (
     <>
       <div className="app-header">
-        <Nav account={account} />
+        <Nav />
       </div>
       <div className="app-container">
-        <AppRoutes account={account} />
+        <AppRoutes />
       </div>
       <ToastContainer
         position="top-right"

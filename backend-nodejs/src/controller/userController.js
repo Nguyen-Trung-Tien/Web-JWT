@@ -80,9 +80,26 @@ const handleDeleteUser = async (req, res) => {
   }
 };
 
+const handleGetUserAccount = async (req, res) => {
+  try {
+    return res.status(200).json({
+      EM: "OK",
+      EC: 0,
+      DT: {
+        access_token: req.token,
+        groupWithRoles: req.user.groupWithRoles,
+        email: req.user.email,
+        username: req.user.username,
+        phoneNumber: req.user.phoneNumber,
+      },
+    });
+  } catch (e) {}
+};
+
 module.exports = {
   handleCreateUser,
   handleShowUser,
   handleDeleteUser,
   handleUpdateUser,
+  handleGetUserAccount,
 };

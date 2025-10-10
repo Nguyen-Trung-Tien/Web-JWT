@@ -11,6 +11,7 @@ const intiApiRoutes = (app) => {
   router.post("/register", apiController.handleRegister);
   router.post("/login", apiController.handleLogin);
 
+  router.get("/account", userController.handleGetUserAccount);
   router.get("/user/show", userController.handleShowUser);
   router.post("/user/create", userController.handleCreateUser);
   router.put("/user/update", userController.handleUpdateUser);

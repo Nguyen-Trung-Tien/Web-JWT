@@ -39,3 +39,7 @@ export const handlerDeleteUser = (user) => {
 export const handleGetAllGroup = () => {
   return axios.get(`/group/show`);
 };
+
+export const handleGetUserAccount = () => {
+  return axios.get(`/account`);
+};

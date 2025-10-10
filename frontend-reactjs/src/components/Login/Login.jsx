@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Login.scss";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -46,8 +46,6 @@ const Login = () => {
         token,
         account: { groupWithRoles, email, phoneNumber, username },
       };
-
-      sessionStorage.setItem("account", JSON.stringify(data));
       loginContext(data);
       navigate("/user");
       // window.location.reload();
@@ -63,13 +61,6 @@ const Login = () => {
       handleLogin();
     }
   };
-
-  useEffect(() => {
-    let session = sessionStorage.getItem("account");
-    if (session) {
-      navigate("/");
-    }
-  }, []);
 
   return (
     <div className="login-container">

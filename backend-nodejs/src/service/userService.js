@@ -94,6 +94,7 @@ const handleUserLogin = async (rawData) => {
         let payload = {
           email: user.email,
           phoneNumber: user.phoneNumber,
+          username: user.username,
           groupWithRoles,
           expiresIn: process.env.JWT_EXPIRES_IN,
         };
