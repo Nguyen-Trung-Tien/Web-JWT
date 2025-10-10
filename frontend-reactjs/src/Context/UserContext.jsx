@@ -1,22 +1,27 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { handleGetUserAccount } from "../services/userService";
-import { useEffect } from "react";
 
 const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
+  const userDefault = {
+    isLoading: true,
     isAuthenticated: false,
     token: "",
     account: {},
-  });
+  };
+  const [user, setUser] = useState(userDefault);
 
   const loginContext = (userData) => {
-    setUser(userData);
+    setUser({
+      ...userData,
+      isLoading: false,
+    });
   };
 
   const logout = () => {
     setUser({
+      isLoading: false,
       isAuthenticated: false,
       token: "",
       account: {},
@@ -24,26 +29,42 @@ const UserProvider = ({ children }) => {
   };
 
   const fetchUser = async () => {
-    let res = await handleGetUserAccount();
-    if (res && res.EC === 0) {
-      let groupWithRoles = res.DT.groupWithRoles;
-      let email = res.DT.email;
-      let phoneNumber = res.DT.phoneNumber;
-      let username = res.DT.username;
-      let token = res.DT.access_token;
+    try {
+      const res = await handleGetUserAccount();
 
-      let data = {
-        isAuthenticated: true,
-        token,
-        account: { groupWithRoles, email, phoneNumber, username },
-      };
-      setUser(data);
+      if (res && res.EC === 0) {
+        const { groupWithRoles, email, phoneNumber, username, access_token } =
+          res.DT;
+
+        setUser({
+          isAuthenticated: true,
+          token: access_token,
+          account: { groupWithRoles, email, phoneNumber, username },
+          isLoading: false,
+        });
+      } else {
+        setUser({ ...userDefault, isLoading: false });
+      }
+    } catch (error) {
+      console.error("fetchUser error:", error);
+      setUser({
+        isAuthenticated: false,
+        token: "",
+        account: {},
+        isLoading: false,
+      });
     }
   };
 
   useEffect(() => {
-    fetchUser();
+    if (
+      window.location.pathname !== "/" ||
+      window.location.pathname !== "/login"
+    ) {
+      fetchUser();
+    }
   }, []);
+
   return (
     <UserContext.Provider value={{ user, loginContext, logout }}>
       {children}

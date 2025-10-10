@@ -33,14 +33,12 @@ instance.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    const status = error && error.response && error.response.status;
-
+    const status = (error && error.response && error.response.status) || 500;
     switch (status) {
       // authentication (token related issues)
       case 401: {
-        toast.error("Unauthorized the user!. Plz login...");
-        // window.location.href = "/login";
-        return Promise.reject(error);
+        // toast.error("Unauthorized the user!. Plz login...");
+        return error.response.status;
       }
 
       // forbidden (permission related issues)
