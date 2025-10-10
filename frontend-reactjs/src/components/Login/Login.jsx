@@ -3,8 +3,10 @@ import "./Login.scss";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { handleLoginUser } from "../../services/userService";
+import { UserContext } from "../../Context/UserContext";
 
 const Login = () => {
+  const { loginContext } = React.useContext(UserContext);
   const navigate = useNavigate();
   const [valueLogin, setValueLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -33,10 +35,22 @@ const Login = () => {
 
     let res = await handleLoginUser(valueLogin, password);
     if (res && +res.EC === 0) {
-      let data = { isAuthenticated: true, token: "Token" };
+      let groupWithRoles = res.DT.groupWithRoles;
+      let email = res.DT.email;
+      let phoneNumber = res.DT.phoneNumber;
+      let username = res.DT.username;
+      let token = res.DT.access_token;
+
+      let data = {
+        isAuthenticated: true,
+        token,
+        account: { groupWithRoles, email, phoneNumber, username },
+      };
+
       sessionStorage.setItem("account", JSON.stringify(data));
+      loginContext(data);
       navigate("/user");
-      window.location.reload();
+      // window.location.reload();
       toast.success(res.EM);
     }
     if (res && +res.EC !== 0) {

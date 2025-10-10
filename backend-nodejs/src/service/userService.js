@@ -101,7 +101,13 @@ const handleUserLogin = async (rawData) => {
         return {
           EM: "Login success!",
           EC: 0,
-          DT: { access_token: token, groupWithRoles },
+          DT: {
+            access_token: token,
+            groupWithRoles,
+            email: user.email,
+            username: user.username,
+            phoneNumber: user.phoneNumber,
+          },
         };
       }
     }
