@@ -46,9 +46,9 @@ const Login = () => {
         token,
         account: { groupWithRoles, email, phoneNumber, username },
       };
+      localStorage.setItem("jwt", token);
       loginContext(data);
       navigate("/user");
-      // window.location.reload();
       toast.success(res.EM);
     }
     if (res && +res.EC !== 0) {
