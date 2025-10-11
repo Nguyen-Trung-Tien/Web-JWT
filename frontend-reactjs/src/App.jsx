@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { PulseLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
 import AppRoutes from "./routes/AppRoutes";
-import Nav from "./components/Navigation/Nav";
+import NavHeder from "./components/Navigation/NavHeder";
 import { UserContext } from "./Context/UserContext";
 
 const override = {
@@ -33,7 +33,7 @@ function App() {
       ) : (
         <>
           <div className="app-header">
-            <Nav />
+            <NavHeder />
           </div>
           <div className="app-container">
             <AppRoutes />
