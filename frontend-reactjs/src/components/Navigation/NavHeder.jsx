@@ -52,6 +52,9 @@ const NavHeder = () => {
                   <NavLink to="/project" className="nav-link">
                     Project
                   </NavLink>
+                  <NavLink to="/roles" className="nav-link">
+                    Roles
+                  </NavLink>
                   <NavLink to="/about" className="nav-link">
                     About
                   </NavLink>

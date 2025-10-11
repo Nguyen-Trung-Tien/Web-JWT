@@ -1,0 +1,22 @@
+.role-container {
+  .action {
+    i {
+      padding-top: 7px;
+      margin-right: 12px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .add {
+      color: rgb(13, 209, 39);
+      &:hover {
+        color: rgb(205, 241, 60);
+      }
+    }
+    .trash {
+      color: rgba(255, 64, 0, 0.934);
+      &:hover {
+        color: rgb(248, 10, 58);
+      }
+    }
+  }
+}
