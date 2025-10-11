@@ -160,7 +160,7 @@ const ModalUser = (props) => {
                 className={
                   validInput.email ? "form-control" : "is-invalid form-control "
                 }
-                value={userData.email}
+                value={userData.email || ""}
                 onChange={(event) =>
                   handleOnChangeInput(event.target.value, "email")
                 }

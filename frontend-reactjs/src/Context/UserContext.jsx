@@ -19,12 +19,10 @@ const UserProvider = ({ children }) => {
     });
   };
 
-  const logout = () => {
+  const logoutContext = (userData) => {
     setUser({
+      ...userData,
       isLoading: false,
-      isAuthenticated: false,
-      token: "",
-      account: {},
     });
   };
 
@@ -47,26 +45,23 @@ const UserProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("fetchUser error:", error);
-      setUser({
-        isAuthenticated: false,
-        token: "",
-        account: {},
-        isLoading: false,
-      });
+      setUser({ ...userDefault, isLoading: false });
     }
   };
 
   useEffect(() => {
     if (
-      window.location.pathname !== "/" ||
+      window.location.pathname !== "/" &&
       window.location.pathname !== "/login"
     ) {
       fetchUser();
+    } else {
+      setUser({ ...user, isLoading: false });
     }
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, loginContext, logout }}>
+    <UserContext.Provider value={{ user, loginContext, logoutContext }}>
       {children}
     </UserContext.Provider>
   );

@@ -32,27 +32,31 @@ const Login = () => {
       toast.error("Please enter your password!");
       return;
     }
+    try {
+      const res = await handleLoginUser(valueLogin, password);
 
-    let res = await handleLoginUser(valueLogin, password);
-    if (res && +res.EC === 0) {
-      let groupWithRoles = res.DT.groupWithRoles;
-      let email = res.DT.email;
-      let phoneNumber = res.DT.phoneNumber;
-      let username = res.DT.username;
-      let token = res.DT.access_token;
+      if (res && res.EC === 0) {
+        const {
+          DT: { groupWithRoles, email, phoneNumber, username, access_token },
+          EM,
+        } = res;
 
-      let data = {
-        isAuthenticated: true,
-        token,
-        account: { groupWithRoles, email, phoneNumber, username },
-      };
-      localStorage.setItem("jwt", token);
-      loginContext(data);
-      navigate("/user");
-      toast.success(res.EM);
-    }
-    if (res && +res.EC !== 0) {
-      toast.error(res.EM);
+        const userData = {
+          isAuthenticated: true,
+          token: access_token,
+          account: { groupWithRoles, email, phoneNumber, username },
+        };
+
+        localStorage.setItem("jwt", access_token);
+        loginContext(userData);
+        navigate("/user");
+        toast.success(EM);
+      } else {
+        toast.error("User not found!");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.warning("User not found!");
     }
   };
 

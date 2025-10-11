@@ -43,3 +43,7 @@ export const handleGetAllGroup = () => {
 export const handleGetUserAccount = () => {
   return axios.get(`/account`);
 };
+
+export const handleLogoutUser = () => {
+  return axios.post(`/logout`);
+};
