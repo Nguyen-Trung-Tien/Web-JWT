@@ -5,6 +5,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import User from "../components/ManageUsers/User";
 import Project from "../components/ManageProject/Project";
 import Roles from "../components/Roles/Roles";
+import GroupRole from "../components/GroupRole/GroupRole";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/user" element={<User />} />
         <Route path="/project" element={<Project />} />
         <Route path="/roles" element={<Roles />} />
+        <Route path="/group-role" element={<GroupRole />} />
       </Route>
       <Route path="*" element={<div>404 not found!</div>} />
     </Routes>

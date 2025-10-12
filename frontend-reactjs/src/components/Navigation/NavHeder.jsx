@@ -49,11 +49,14 @@ const NavHeder = () => {
                   <NavLink to="/user" className="nav-link">
                     Manage User
                   </NavLink>
-                  <NavLink to="/project" className="nav-link">
-                    Project
-                  </NavLink>
                   <NavLink to="/roles" className="nav-link">
                     Roles
+                  </NavLink>
+                  <NavLink to="/group-role" className="nav-link">
+                    Group Roles
+                  </NavLink>
+                  <NavLink to="/project" className="nav-link">
+                    Project
                   </NavLink>
                   <NavLink to="/about" className="nav-link">
                     About

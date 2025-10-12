@@ -11,3 +11,7 @@ export const handleGetAllRole = () => {
 export const handleDeleteRole = (role) => {
   return axios.delete(`/role/delete`, { data: { id: role.id } });
 };
+
+export const handleGetRoleByGroup = (groupId) => {
+  return axios.get(`/role/by-group/${groupId}`);
+};
