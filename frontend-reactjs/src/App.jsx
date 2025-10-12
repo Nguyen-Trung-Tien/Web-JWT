@@ -1,5 +1,6 @@
 import "./App.scss";
-import { useContext } from "react";
+import { Scrollbars } from "react-custom-scrollbars";
+import { useContext, useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
 import AppRoutes from "./routes/AppRoutes";
@@ -13,9 +14,14 @@ const override = {
 
 function App() {
   const { user } = useContext(UserContext);
+  const [scrollHeight, setScrollHeight] = useState(0);
 
+  useEffect(() => {
+    let windowHeight = window.innerHeight;
+    setScrollHeight(windowHeight);
+  }, [user]);
   return (
-    <>
+    <Scrollbars autoHide style={{ height: scrollHeight }}>
       {user?.isLoading ? (
         <div className="loading-container" style={{ marginTop: "200px" }}>
           <div>
@@ -43,7 +49,7 @@ function App() {
 
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -53,7 +59,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
-    </>
+    </Scrollbars>
   );
 }
 

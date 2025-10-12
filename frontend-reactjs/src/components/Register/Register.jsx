@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Register.scss";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleRegisterUser } from "../../services/userService";
+import { UserContext } from "../../Context/UserContext";
 
 const Register = () => {
+  const { user } = useContext(UserContext);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -19,6 +22,11 @@ const Register = () => {
   };
   const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
 
+  useEffect(() => {
+    if (user && user.isAuthenticated) {
+      navigate("/");
+    }
+  });
   const handleLogin = () => {
     navigate("/login");
   };
@@ -173,6 +181,12 @@ const Register = () => {
               <button className="btn btn-success" onClick={() => handleLogin()}>
                 Already my account! Login
               </button>
+              <div className="mt-3 return">
+                <Link to="/">
+                  <i className="fa-solid fa-arrow-left"></i>
+                  <span className="title">Return to HomePage</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

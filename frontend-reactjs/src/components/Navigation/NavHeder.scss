@@ -27,6 +27,10 @@ body {
 }
 
 .nav-header {
+  padding-bottom: 0.5rem;
+  .navbar {
+    padding-bottom: 0 !important;
+  }
   .bg-header {
     background-color: #242730;
   }
@@ -48,6 +52,7 @@ body {
   .nav-link {
     &.active {
       color: #6ac4dd !important;
+      border-bottom: 2px solid;
     }
   }
   .dropdown-menu {

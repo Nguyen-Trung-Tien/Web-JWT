@@ -24,7 +24,11 @@ const NavHeder = () => {
       toast.error("Logout error!");
     }
   };
-  if ((user && user.isAuthenticated === true) || location.pathname === "/") {
+  if (
+    (user && user.isAuthenticated === true) ||
+    location.pathname === "/" ||
+    location.pathname === "/about"
+  ) {
     return (
       <>
         <div className="nav-header">

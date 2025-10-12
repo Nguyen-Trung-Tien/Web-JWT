@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Login.scss";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleLoginUser } from "../../services/userService";
 import { UserContext } from "../../Context/UserContext";
 
 const Login = () => {
-  const { loginContext } = React.useContext(UserContext);
+  const { user, loginContext } = useContext(UserContext);
   const navigate = useNavigate();
   const [valueLogin, setValueLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -66,6 +66,12 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (user && user.isAuthenticated) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="login-container">
       <div className="container">
@@ -124,6 +130,12 @@ const Login = () => {
               >
                 Create new account
               </button>
+              <div className="mt-3 return">
+                <Link to="/">
+                  <i className="fa-solid fa-arrow-left"></i>
+                  <span className="title">Return to HomePage</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

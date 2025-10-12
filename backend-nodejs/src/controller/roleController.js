@@ -91,7 +91,6 @@ const handleDeleteRole = async (req, res) => {
 const handleAssignRoleToGroup = async (req, res) => {
   try {
     let data = await roleService.assignRoleToGroup(req.body.data);
-    console.log(req.body.data);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,

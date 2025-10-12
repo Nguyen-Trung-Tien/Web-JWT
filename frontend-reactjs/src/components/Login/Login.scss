@@ -22,6 +22,9 @@
       text-align: center;
       font-weight: 600;
       color: #2c68ff;
+      a {
+        text-decoration: none;
+      }
     }
 
     border: none;
@@ -34,6 +37,14 @@
       text-decoration: none;
       &:hover {
         text-decoration: underline;
+      }
+    }
+    .return {
+      a {
+        text-decoration: none;
+      }
+      span {
+        padding-left: 7px;
       }
     }
   }
