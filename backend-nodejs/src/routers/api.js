@@ -25,6 +25,7 @@ const intiApiRoutes = (app) => {
   // Roles
   router.get("/role/show", roleController.handleShowRole);
   router.get("/role/by-group/:groupId", roleController.handleGetRoleByGroup);
+  router.post("/role/assign-to-group", roleController.handleAssignRoleToGroup);
   router.post("/role/create", roleController.handleCreateRole);
   router.put("/role/update", roleController.handleUpdateRole);
   router.delete("/role/delete", roleController.handleDeleteRole);

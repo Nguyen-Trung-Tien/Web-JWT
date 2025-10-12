@@ -15,3 +15,7 @@ export const handleDeleteRole = (role) => {
 export const handleGetRoleByGroup = (groupId) => {
   return axios.get(`/role/by-group/${groupId}`);
 };
+
+export const handleAssignRoleToGroup = (data) => {
+  return axios.post(`/role/assign-to-group`, { data });
+};

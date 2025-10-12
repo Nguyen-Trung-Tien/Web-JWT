@@ -115,4 +115,31 @@ const deleteRole = async (id) => {
   }
 };
 
-module.exports = { createRole, getAllRole, deleteRole, getRoleByGroup };
+const assignRoleToGroup = async (data) => {
+  try {
+    await db.Group_Role.destroy({
+      where: { groupId: +data.groupId },
+    });
+    await db.Group_Role.bulkCreate(+data.groupRole);
+    return {
+      EM: "Bulk Create a role to group success!",
+      EC: 0,
+      DT: [],
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "Something wrong with server...!",
+      EC: -2,
+      DT: [],
+    };
+  }
+};
+
+module.exports = {
+  createRole,
+  getAllRole,
+  deleteRole,
+  getRoleByGroup,
+  assignRoleToGroup,
+};

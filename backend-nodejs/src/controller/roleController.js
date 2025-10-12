@@ -74,7 +74,6 @@ const handleUpdateRole = async (req, res) => {
 const handleDeleteRole = async (req, res) => {
   try {
     let data = await roleService.deleteRole(req.body.id);
-    console.log(req.body.id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -89,10 +88,28 @@ const handleDeleteRole = async (req, res) => {
   }
 };
 
+const handleAssignRoleToGroup = async (req, res) => {
+  try {
+    let data = await roleService.assignRoleToGroup(req.body.data);
+    console.log(req.body.data);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      EM: "Error from server....!",
+      EC: -1,
+      DT: "",
+    });
+  }
+};
 module.exports = {
   handleCreateRole,
   handleDeleteRole,
   handleShowRole,
   handleUpdateRole,
   handleGetRoleByGroup,
+  handleAssignRoleToGroup,
 };

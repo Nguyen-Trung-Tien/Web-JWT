@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./GroupRole.scss";
 import { handleGetAllGroup } from "../../services/userService";
 import {
+  handleAssignRoleToGroup,
   handleGetAllRole,
   handleGetRoleByGroup,
 } from "../../services/roleService";
@@ -75,6 +76,30 @@ const GroupRole = () => {
     setAssignGroupByRoles(_assignGroupByRoles);
   };
 
+  const buildDataToSave = () => {
+    let result = {};
+    const _assignGroupByRoles = _.cloneDeep(assignGroupByRoles);
+    result.groupId = selectGroups;
+    let groupRoleFilter = _assignGroupByRoles.filter(
+      (item) => item.isAssigned === true
+    );
+    let finalGroupRole = groupRoleFilter.map((item) => {
+      let data = { groupId: +selectGroups, roleId: +item.id };
+      return data;
+    });
+    result.groupRole = finalGroupRole;
+    return result;
+  };
+
+  const AssignRoleToGroupSave = async () => {
+    let data = buildDataToSave();
+    let res = await handleAssignRoleToGroup(data);
+    if (res && +res.EC === 0) {
+      toast.success(res.EM);
+    } else {
+      toast.error(res.EM);
+    }
+  };
   return (
     <>
       <div className="group-role-container">
@@ -134,7 +159,12 @@ const GroupRole = () => {
               </div>
             )}
             <div className="mt-3">
-              <button className="btn btn-warning">Save</button>
+              <button
+                className="btn btn-warning"
+                onClick={() => AssignRoleToGroupSave()}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
