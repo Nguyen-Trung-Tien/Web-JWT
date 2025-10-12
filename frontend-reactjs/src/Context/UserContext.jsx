@@ -1,9 +1,11 @@
 import { useState, createContext, useEffect } from "react";
 import { handleGetUserAccount } from "../services/userService";
+import { useNavigate } from "react-router";
 
 const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
+  // const navigate = useNavigate();
   const userDefault = {
     isLoading: true,
     isAuthenticated: false,
@@ -29,7 +31,6 @@ const UserProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       const res = await handleGetUserAccount();
-
       if (res && res.EC === 0) {
         const { groupWithRoles, email, phoneNumber, username, access_token } =
           res.DT;

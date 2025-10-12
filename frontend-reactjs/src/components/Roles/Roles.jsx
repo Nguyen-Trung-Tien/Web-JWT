@@ -3,9 +3,12 @@ import _ from "lodash";
 import "./Roles.scss";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
-import { handleCreateRole } from "../../services/roleService";
+import { handleCreateRole, handleGetAllRole } from "../../services/roleService";
+import TableRole from "./TableRole";
+import { useRef } from "react";
 
 const Roles = () => {
+  const Ref = useRef();
   const dataChildDefault = {
     url: "",
     description: "",
@@ -54,6 +57,7 @@ const Roles = () => {
       let res = await handleCreateRole(data);
       if (res && res.EC === 0) {
         toast.success(res.EM);
+        Ref.current.fetchListRole();
       }
     } else {
       toast.error("Input URL must not be empty...");
@@ -66,7 +70,7 @@ const Roles = () => {
   return (
     <div className="role-container">
       <div className="container">
-        <div className="title-role mt-3">
+        <div className="adding-role mt-3">
           <h4>Add a new roles...</h4>
           <div className="role-parent">
             {Object.entries(listChild).map(([key, child], index) => {
@@ -123,6 +127,11 @@ const Roles = () => {
           <div className="btn btn-warning mt-3" onClick={() => handleSave()}>
             Save
           </div>
+        </div>
+        <hr />
+        <div className="mt-3 table-role">
+          <h5>List Current Roles</h5>
+          <TableRole ref={Ref} />
         </div>
       </div>
     </div>
